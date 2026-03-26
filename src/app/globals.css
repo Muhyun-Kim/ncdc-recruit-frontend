@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+body {
+  padding: 30px 40px;
+}
+
+@theme inline {
+  /* ブランド */
+  --color-light-blue: #4cb3f8;
+
+  /* テキスト */
+  --color-black-80: #333333;
+  --color-black-50: #4d4d4d;
+
+  /* ボタン */
+  --color-black-30: #b3b3b3;
+
+  /* 背景 */
+  --color-bg-light: #f5f8fa;
+  --color-bg-dark: #c8e6fa;
+
+  /* フォント */
+  --font-sans: var(--font-noto-sans-jp);
+
+  /* フォントサイズ */
+  --font-size-title: 24px;
+  --font-size-body: 16px;
+  --font-size-caption: 12px;
+  --font-size-minimum: 10px;
+}
