@@ -2,6 +2,7 @@
 
 body {
   padding: 30px 40px;
+  height: 100vh;
 }
 
 @theme inline {
@@ -21,10 +22,40 @@ body {
 
   /* フォント */
   --font-sans: var(--font-noto-sans-jp);
+}
 
-  /* フォントサイズ */
-  --font-size-title: 24px;
-  --font-size-body: 16px;
-  --font-size-caption: 12px;
-  --font-size-minimum: 10px;
+.text-title {
+  font-family: NotoSansJP-Bold;
+  font-size: 24px;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 40px;
+  font-weight: 700;
+}
+
+.text-body {
+  font-family: NotoSansJP-Regular;
+  font-size: 16px;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 40px;
+  font-weight: 400;
+}
+
+.text-caption {
+  font-family: NotoSansJP-Regular;
+  font-size: 12px;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 40px;
+  font-weight: 400;
+}
+
+.text-minimum {
+  font-family: NotoSansJP-Regular;
+  font-size: 10px;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 40px;
+  font-weight: 400;
 }
