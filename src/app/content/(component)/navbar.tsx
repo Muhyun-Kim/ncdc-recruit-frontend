@@ -6,7 +6,7 @@ import {
   DoneButton,
   EditButton,
   NewPageButton,
-} from "../../component/button";
+} from "../../../component/button";
 
 export default function Navbar({
   contentList,

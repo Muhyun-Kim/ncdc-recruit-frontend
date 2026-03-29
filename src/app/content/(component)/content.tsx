@@ -1,7 +1,11 @@
 import { useRef, useState } from "react";
 import { GetContentRes, PutContentBody } from "@/services/content";
-import { CancelButton, EditButton, SaveButton } from "../../component/button";
-import { contentSchema } from "./schema";
+import {
+  CancelButton,
+  EditButton,
+  SaveButton,
+} from "../../../component/button";
+import { contentSchema } from "../schema";
 
 export default function Content({
   selectedContent,

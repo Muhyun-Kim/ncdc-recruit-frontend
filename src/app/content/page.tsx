@@ -11,8 +11,8 @@ import {
   updateContent,
 } from "@/services/content";
 import { useEffect, useState } from "react";
-import Navbar from "./navbar";
-import Content from "./content";
+import Navbar from "./(component)/navbar";
+import Content from "./(component)/content";
 
 export default function ContentMain() {
   const [contentList, setContentList] = useState<GetContentListRes[]>([]);
