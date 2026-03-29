@@ -19,6 +19,9 @@ body {
   --color-bg-light: #f5f8fa;
   --color-bg-dark: #c8e6fa;
 
+  /* エラー */
+  --color-error: #ff0000;
+
   /* フォント */
   --font-sans: var(--font-noto-sans-jp);
 }

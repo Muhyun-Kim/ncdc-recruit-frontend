@@ -28,6 +28,7 @@ function Button({
 
   return (
     <button
+      type="button"
       className={`h-[40px] ${isSmall ? "w-[40px]" : "w-[90px]"} px-[10px] rounded-[4px] flex flex-col items-center justify-center ${variantStyles[variant]}`}
       onClick={onClick}
       disabled={disabled}
@@ -139,6 +140,7 @@ export function DeleteButton({
 }) {
   return (
     <button
+      type="button"
       className="h-[40px] min-w-[40px] flex items-center justify-center hover:opacity-70 active:opacity-50 disabled:opacity-30"
       onClick={onClick}
       disabled={disabled}
