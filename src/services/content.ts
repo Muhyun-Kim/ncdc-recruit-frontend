@@ -18,7 +18,7 @@ interface PostContentRes {
   updatedAt: string;
 }
 
-interface GetContentRes {
+export interface GetContentRes {
   id: number;
   title: string;
   body: string;
@@ -50,4 +50,32 @@ export async function getContentList(): Promise<GetContentListRes[]> {
     throw new Error("Failed to fetch content list");
   }
   return response.json();
+}
+
+export async function getContent(id: number): Promise<GetContentRes> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/content/${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch content");
+  }
+  return response.json();
+}
+
+export async function deleteContent(id: number): Promise<void> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/content/${id}`,
+    {
+      method: "DELETE",
+    },
+  );
+  if (!response.ok) {
+    throw new Error("Failed to delete content");
+  }
 }
