@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  createContent,
   deleteContent,
   getContent,
   getContentList,
@@ -81,6 +82,15 @@ export default function ContentMain() {
       setContentList(contentList.filter((content) => content.id !== id));
     });
   };
+  const handleCreateContent = () => {
+    createContent({ title: "New Page", body: "" }).then((res) => {
+      setContentList((prev) => [
+        ...prev,
+        { id: res.id, title: res.title, createdAt: res.createdAt, updatedAt: res.updatedAt },
+      ]);
+      setSelectedContentId(res.id);
+    });
+  };
   const handleUpdateContent = (body: PutContentBody) => {
     if (!selectedContentId) return;
     updateContent(selectedContentId, body).then((res) => {
@@ -143,7 +153,7 @@ export default function ContentMain() {
             </>
           ) : (
             <>
-              <NewPageButton onClick={() => {}} disabled={false} />
+              <NewPageButton onClick={handleCreateContent} disabled={false} />
               <DoneButton
                 onClick={() => handleChangeMode("preview")}
                 disabled={false}

@@ -39,6 +39,22 @@ interface PutContentRes {
   updatedAt: string;
 }
 
+export async function createContent(
+  body: PostContentBody,
+): Promise<PostContentRes> {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/content`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to create content");
+  }
+  return response.json();
+}
+
 export async function getContentList(): Promise<GetContentListRes[]> {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/content`, {
     method: "GET",
