@@ -47,47 +47,43 @@ export default function ContentMain() {
   ) => {
     const { name, value } = e.target;
     if (!selectedContent) return;
-    setSelectedContent({ ...selectedContent, [name]: value } as GetContentRes);
+    setSelectedContent({ ...selectedContent, [name]: value });
   };
   const [mode, setMode] = useState<"edit" | "preview">("preview");
   const handleChangeMode = (string: "edit" | "preview") => {
     setMode(string);
   };
-  const handleDeleteContent = (id: number) => {
-    deleteContent(id).then(() => {
-      setContentList(contentList.filter((content) => content.id !== id));
-    });
+  const handleDeleteContent = async (id: number) => {
+    await deleteContent(id);
+    setContentList(contentList.filter((content) => content.id !== id));
   };
-  const handleCreateContent = () => {
-    createContent({ title: "New Page", body: "" }).then((res) => {
-      setContentList((prev) => [
-        ...prev,
-        {
-          id: res.id,
-          title: res.title,
-          createdAt: res.createdAt,
-          updatedAt: res.updatedAt,
-        },
-      ]);
-      setSelectedContentId(res.id);
-    });
+  const handleCreateContent = async () => {
+    const res = await createContent({ title: "New Page", body: "" });
+    setContentList((prev) => [
+      ...prev,
+      {
+        id: res.id,
+        title: res.title,
+        createdAt: res.createdAt,
+        updatedAt: res.updatedAt,
+      },
+    ]);
+    setSelectedContentId(res.id);
   };
-  const handleCancelContent = () => {
+  const handleCancelContent = async () => {
     if (!selectedContentId) return;
-    getContent(selectedContentId).then((res) => {
-      setSelectedContent(res);
-    });
+    const res = await getContent(selectedContentId);
+    setSelectedContent(res);
   };
-  const handleUpdateContent = (body: PutContentBody) => {
+  const handleUpdateContent = async (body: PutContentBody) => {
     if (!selectedContentId) return;
-    updateContent(selectedContentId, body).then((res) => {
-      setSelectedContent(res);
-      setContentList((prev) =>
-        prev.map((item) =>
-          item.id === selectedContentId ? { ...item, title: res.title } : item,
-        ),
-      );
-    });
+    const res = await updateContent(selectedContentId, body);
+    setSelectedContent(res);
+    setContentList((prev) =>
+      prev.map((item) =>
+        item.id === selectedContentId ? { ...item, title: res.title } : item,
+      ),
+    );
   };
   return (
     <div className="flex h-full">
