@@ -26,7 +26,7 @@ export interface GetContentRes {
   updatedAt: string;
 }
 
-interface PutContentBody {
+export interface PutContentBody {
   title: string;
   body: string;
 }
@@ -78,4 +78,24 @@ export async function deleteContent(id: number): Promise<void> {
   if (!response.ok) {
     throw new Error("Failed to delete content");
   }
+}
+
+export async function updateContent(
+  id: number,
+  body: PutContentBody,
+): Promise<PutContentRes> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/content/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    },
+  );
+  if (!response.ok) {
+    throw new Error("Failed to update content");
+  }
+  return response.json();
 }

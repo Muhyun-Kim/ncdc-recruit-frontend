@@ -6,15 +6,19 @@ import {
   getContentList,
   GetContentListRes,
   GetContentRes,
+  PutContentBody,
+  updateContent,
 } from "@/services/content";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
+  CancelButton,
   DeleteButton,
   DoneButton,
   EditButton,
   NewPageButton,
+  SaveButton,
 } from "./(component)/button";
 
 export default function ContentMain() {
@@ -25,6 +29,22 @@ export default function ContentMain() {
   const [selectedContent, setSelectedContent] = useState<GetContentRes | null>(
     null,
   );
+  const titleRef = useRef<HTMLInputElement>(null);
+  const bodyRef = useRef<HTMLTextAreaElement>(null);
+  const [isTitleReadOnly, setIsTitleReadOnly] = useState(true);
+  const [isBodyReadOnly, setIsBodyReadOnly] = useState(true);
+  const handleChangeTitleReadOnly = (isReadOnly: boolean) => {
+    setIsTitleReadOnly(isReadOnly);
+    if (!isReadOnly) {
+      setTimeout(() => titleRef.current?.focus(), 0);
+    }
+  };
+  const handleChangeBodyReadOnly = (isReadOnly: boolean) => {
+    setIsBodyReadOnly(isReadOnly);
+    if (!isReadOnly) {
+      setTimeout(() => bodyRef.current?.focus(), 0);
+    }
+  };
   useEffect(() => {
     const fetchContentList = async () => {
       const res = await getContentList();
@@ -59,6 +79,17 @@ export default function ContentMain() {
   const handleDeleteContent = (id: number) => {
     deleteContent(id).then(() => {
       setContentList(contentList.filter((content) => content.id !== id));
+    });
+  };
+  const handleUpdateContent = (body: PutContentBody) => {
+    if (!selectedContentId) return;
+    updateContent(selectedContentId, body).then((res) => {
+      setSelectedContent(res);
+      setContentList((prev) =>
+        prev.map((item) =>
+          item.id === selectedContentId ? { ...item, title: res.title } : item,
+        ),
+      );
     });
   };
   return (
@@ -122,18 +153,74 @@ export default function ContentMain() {
         </div>
       </div>
       {/* content */}
-      <div className="w-full px-[40px] bg-white">
+      <div className="w-full px-[40px] bg-white flex">
         <form className="bg-bg-light w-full h-full p-[30px] rounded-[16px] flex flex-col gap-[20px]">
-          <input
-            className="text-title pl-[30px]"
-            value={selectedContent?.title ?? ""}
-            onChange={handleChangeContent}
-          />
-          <textarea
-            className="w-full h-full p-[30px] rounded-[8px] bg-white"
-            value={selectedContent?.body ?? ""}
-            onChange={handleChangeContent}
-          />
+          <div className="flex items-center justify-between h-[40px] gap-[20px]">
+            <input
+              ref={titleRef}
+              name="title"
+              className={`text-title pl-[30px] w-full ${isTitleReadOnly ? "pointer-events-none" : "focus:outline-light-blue"}`}
+              value={selectedContent?.title ?? ""}
+              onChange={handleChangeContent}
+              readOnly={isTitleReadOnly}
+            />
+            {isTitleReadOnly ? (
+              <EditButton
+                onClick={() => handleChangeTitleReadOnly(false)}
+                disabled={false}
+              />
+            ) : (
+              <div className="flex gap-[10px]">
+                <CancelButton
+                  onClick={() => handleChangeTitleReadOnly(true)}
+                  disabled={false}
+                />
+                <SaveButton
+                  onClick={() => {
+                    handleUpdateContent({
+                      title: selectedContent?.title ?? "",
+                      body: selectedContent?.body ?? "",
+                    });
+                    handleChangeTitleReadOnly(true);
+                  }}
+                  disabled={false}
+                />
+              </div>
+            )}
+          </div>
+          <div className="flex justify-between h-full gap-[20px]">
+            <textarea
+              ref={bodyRef}
+              name="body"
+              className={`w-full h-full p-[30px] rounded-[8px] bg-white ${isBodyReadOnly ? "pointer-events-none" : "focus:outline-light-blue"}`}
+              value={selectedContent?.body ?? ""}
+              onChange={handleChangeContent}
+              readOnly={isBodyReadOnly}
+            />
+            {isBodyReadOnly ? (
+              <EditButton
+                onClick={() => handleChangeBodyReadOnly(false)}
+                disabled={false}
+              />
+            ) : (
+              <div className="flex gap-[10px]">
+                <CancelButton
+                  onClick={() => handleChangeBodyReadOnly(true)}
+                  disabled={false}
+                />
+                <SaveButton
+                  onClick={() => {
+                    handleUpdateContent({
+                      title: selectedContent?.title ?? "",
+                      body: selectedContent?.body ?? "",
+                    });
+                    handleChangeBodyReadOnly(true);
+                  }}
+                  disabled={false}
+                />
+              </div>
+            )}
+          </div>
         </form>
       </div>
     </div>

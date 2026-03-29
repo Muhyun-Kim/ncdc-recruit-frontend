@@ -8,12 +8,14 @@ function Button({
   buttonName,
   variant = "primary",
   disabled = false,
+  isSmall = false,
 }: {
   onClick: () => void;
   imgSrc: string;
   buttonName: string;
   variant?: ButtonVariant;
   disabled?: boolean;
+  isSmall?: boolean;
 }) {
   const variantStyles: Record<ButtonVariant, string> = {
     primary:
@@ -26,7 +28,7 @@ function Button({
 
   return (
     <button
-      className={`h-[40px] w-[90px] px-[10px] rounded-[4px] flex flex-col items-center justify-center ${variantStyles[variant]}`}
+      className={`h-[40px] ${isSmall ? "w-[40px]" : "w-[90px]"} px-[10px] rounded-[4px] flex flex-col items-center justify-center ${variantStyles[variant]}`}
       onClick={onClick}
       disabled={disabled}
     >
@@ -90,6 +92,25 @@ export function DoneButton({
   );
 }
 
+export function SaveButton({
+  onClick,
+  disabled = false,
+}: {
+  onClick: () => void;
+  disabled?: boolean;
+}) {
+  return (
+    <Button
+      onClick={onClick}
+      imgSrc="/icon/save.svg"
+      buttonName="Save"
+      variant="primary"
+      disabled={disabled}
+      isSmall={true}
+    />
+  );
+}
+
 export function CancelButton({
   onClick,
   disabled = false,
@@ -104,6 +125,7 @@ export function CancelButton({
       buttonName="Cancel"
       variant="normal"
       disabled={disabled}
+      isSmall={true}
     />
   );
 }
